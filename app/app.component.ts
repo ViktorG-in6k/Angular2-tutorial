@@ -1,6 +1,28 @@
 import {Component} from '@angular/core';
 
-styles: [`
+
+export class Hero {
+  id: number;
+  name: string;
+}
+
+
+const HEROES: Hero[] = [
+  {id: 1, name: 'Eddie'},
+  {id: 2, name: 'Pavel'},
+  {id: 3, name: 'Ivan'},
+  {id: 4, name: 'Serhiy'},
+  {id: 5, name: 'Denis'},
+  {id: 6, name: 'Andrew'},
+  {id: 7, name: 'Dan'},
+  {id: 8, name: 'Alex'},
+  {id: 9, name: 'Max'},
+  {id: 10, name: 'Denis'},
+];
+
+
+@Component({
+  styles: [`
   .selected {
     background-color: #CFD8DC !important;
     color: white;
@@ -48,60 +70,35 @@ styles: [`
     margin-right: .8em;
     border-radius: 4px 0 0 4px;
   }
-`]
-
-export class Hero {
-  id: number;
-  name: string;
-}
-
-
-
-const HEROES: Hero[] = [
-  {id: 1, name: 'Eddie'},
-  {id: 2, name: 'Pavel'},
-  {id: 3, name: 'Ivan'},
-  {id: 4, name: 'Serhiy'},
-  {id: 5, name: 'Denis'},
-  {id: 6, name: 'Andrew'},
-  {id: 7, name: 'Dan'},
-  {id: 8, name: 'Alex'},
-  {id: 9, name: 'Max'},
-  {id: 10, name: 'Denis'},
-];
-
-
-function onSelect(hero: Hero): void {
-  this.selectedHero = hero;
-}
-
-@Component({
+`],
   selector: 'my-app',
-  template:
-    '<h2>Lolki</h2>' +
-    '<ul class="heroes">' +
-    '<li *ngFor="let hero of heroes" (click)="onSelect(hero)">' +
-    '<span class="badge">{{hero.id}}</span> {{hero.name}}' +
-    '</li>' +
-    '</ul>' +
-  '<div *ngIf="selectedHero">' +
-  '    <h2>{{selectedHero.name}} details!</h2>' +
-  '<div><label>id: </label>{{selectedHero.id}}</div>' +
-  '<div> ' +
-  ' <label>name: </label>' +
-  '<input [(ngModel)]="selectedHero.name" placeholder="name"/> ' +
-  ' </div> ' +
-  ' </div>'
-
-
-
+  template: `
+  <h2>Lolki</h2>
+  <ul class="heroes">
+    <li *ngFor="let hero of heroes"
+        [class.selected]="hero === selectedHero"
+        (click)="onSelect(hero)">
+        <span class="badge">{{hero.id}}</span> {{hero.name}}
+      </li>
+  </ul>
+  <div *ngIf="selectedHero">
+      <h2>{{selectedHero.name}} details!</h2>
+      <div>
+        <label>id: </label>{{selectedHero.id}}</div>
+      <div>
+        <label>name: </label>
+        <input [(ngModel)]="selectedHero.name" placeholder="name"/>
+      </div>
+  </div>`
 })
-
 
 
 export class AppComponent {
   title = 'tour of heroes';
   heroes = HEROES;
   selectedHero: Hero;
+  onSelect(hero: Hero): void {
+    this.selectedHero = hero;
+  }
 }
 
